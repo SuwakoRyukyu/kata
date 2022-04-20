@@ -23,6 +23,12 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             System.out.println("Table creating error");
             e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -33,6 +39,12 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             System.out.println("Table dropping error");
             e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -48,6 +60,12 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             System.out.println("User saving error");
             e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -60,6 +78,12 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             System.out.println("User removing error");
             e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -80,6 +104,12 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             System.out.println("Getting users from table error");
             e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         System.out.println("Get list of users from table");
         return userList;
@@ -92,6 +122,12 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             System.out.println("Clearing table error");
             e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
