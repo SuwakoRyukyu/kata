@@ -8,6 +8,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
+    // Какое из полей не закрыто?
     private final UserDao dao = new UserDaoHibernateImpl();
 
     public void createUsersTable() {

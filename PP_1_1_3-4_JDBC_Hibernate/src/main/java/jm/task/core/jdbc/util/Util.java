@@ -7,7 +7,13 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.Properties;
 
-// The reason I'm using Mariadb is that the default implementation of MySQL on my Linux distro (Arch Linux) is Mariadb, and there's no actual way to change it to MySQL as far as I can see.
+ /*
+Алгоритм создания синглтона:
+#1. – Нужно добавить в класс приватное статическое поле, содержащее одиночный объект:
+#2. – Сделать конструктор класса приватным
+#3. – Объявить статический создающий метод, который будет использоваться для получения одиночки:
+Что здесь не так?
+*/
 public class Util {
 
     private Util() {}
