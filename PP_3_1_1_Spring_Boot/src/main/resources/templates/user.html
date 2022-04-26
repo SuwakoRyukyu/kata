@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<th:block th:each="usr : ${users}">
+    <h1 th:text="${usr}"></h1>
+</th:block>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="field : ${user}">
+        <td th:text="${field.name}">Name</td>
+        <td th:text="${field.age}">Age</td>
+        <td th:text="${field.email}">Email</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
