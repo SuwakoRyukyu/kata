@@ -6,9 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.entity.Role;
+import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.reposotory.UserRepository;
 
 import java.util.*;
 
@@ -16,19 +15,16 @@ import java.util.*;
 public class UserService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDAO userDAO;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private RoleService roleService;
-
     public List<User> findAll() {
-        return userRepository.findAll();
+        return userDAO.findAll();
     }
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userDAO.findByUsername(username);
     }
 
     @Override
@@ -41,28 +37,26 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean saveUser(User user) {
-        User userToFind = userRepository.findByUsername(user.getUsername());
+        User userToFind = userDAO.findByUsername(user.getUsername());
         if (userToFind != null) {
             return false;
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userDAO.saveUser(user);
         return true;
     }
 
     public User findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElse(new User());
+        User user = userDAO.findById(id);
+        return Objects.requireNonNullElseGet(user, User::new);
     }
 
-    public void updateUser(Long id, User user) {
+    public void updateUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userDAO.saveUser(user);
     }
 
     public void removeUserById(Long id) {
-        if (userRepository.findById(id).isPresent()) {
-            userRepository.deleteById(id);
-        }
+        userDAO.removeUserById(id);
     }
 }
