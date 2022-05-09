@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService {
         return dao.readUser(id);
     }
 
-
     @Transactional
     @Override
     public void removeUser(User user) {
