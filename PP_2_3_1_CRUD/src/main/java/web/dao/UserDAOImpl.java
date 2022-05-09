@@ -40,10 +40,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(int id, User user) {
-        User tempUser = readUser(id);
-        tempUser.setName(user.getName());
-        tempUser.setAge(user.getAge());
-        tempUser.setMail(user.getMail());
+    public void updateUser(User user) {
+        entityManager.merge(user);
     }
 }

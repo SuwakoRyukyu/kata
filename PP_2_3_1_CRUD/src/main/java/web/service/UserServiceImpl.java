@@ -25,13 +25,11 @@ public class UserServiceImpl implements UserService {
         dao.createUser(user);
     }
 
-    @Transactional
     @Override
     public List<User> readUsers() {
         return dao.readUsers();
     }
 
-    @Transactional
     @Override
     public User readUser(int id) {
         return dao.readUser(id);
@@ -46,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateUser(int id, User user) {
-        dao.updateUser(id, user);
+    public void updateUser(User user) {
+        dao.updateUser(user);
     }
 }
