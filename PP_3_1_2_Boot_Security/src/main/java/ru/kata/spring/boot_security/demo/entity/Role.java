@@ -20,7 +20,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return "id=" + id + ", role=" + role;
+        return role;
     }
 
     public Role() {

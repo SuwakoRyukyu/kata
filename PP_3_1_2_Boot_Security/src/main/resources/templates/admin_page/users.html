@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+
+<div th:fragment="users">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Username</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Edit user</th>
+            <th>Delete user</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">Id</td>
+            <td th:text="${user.username}">Username</td>
+            <td th:text="${user.age}">Age</td>
+            <td th:text="${user.email}">Email</td>
+            <td th:text="${user.roles}">Roles</td>
+            <td>
+               <div th:insert="admin_page/edit :: edit"></div>
+            </td>
+
+            <td>
+                <div th:insert="admin_page/delete :: delete"></div>
+            </td>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
