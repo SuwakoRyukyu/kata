@@ -1,7 +1,6 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDAO;
@@ -26,13 +25,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> readUsers() {
-        return dao.readUsers();
+    public List<User> getUsers() {
+        return dao.getUsers();
     }
 
     @Override
-    public User readUser(int id) {
-        return dao.readUser(id);
+    public User getUser(int id) {
+        return dao.getUser(id);
     }
 
     @Transactional

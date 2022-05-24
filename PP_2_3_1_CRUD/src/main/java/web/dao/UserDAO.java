@@ -8,8 +8,8 @@ import java.util.List;
 @Component
 public interface UserDAO {
     void createUser(User user);
-    List<User> readUsers();
-    User readUser(int id);
+    List<User> getUsers();
+    User getUser(int id);
     void removeUser(User user);
     void updateUser(User user);
 }

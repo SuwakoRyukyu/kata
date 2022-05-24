@@ -20,13 +20,13 @@ public class UserController {
 
     @GetMapping()
     public String showUsers(ModelMap modelMap) {
-        modelMap.addAttribute("users", userService.readUsers());
+        modelMap.addAttribute("users", userService.getUsers());
         return "index";
     }
 
     @GetMapping("/{id}")
     public String showUser(ModelMap modelMap, @PathVariable("id") int id) {
-        modelMap.addAttribute("user", userService.readUser(id));
+        modelMap.addAttribute("user", userService.getUser(id));
         return "user";
     }
 
@@ -44,7 +44,7 @@ public class UserController {
 
     @GetMapping("/{id}/edit")
     public String editUserForm(ModelMap modelMap, @PathVariable("id") int id) {
-        modelMap.addAttribute("user", userService.readUser(id));
+        modelMap.addAttribute("user", userService.getUser(id));
         return "editUser";
     }
 
@@ -54,9 +54,9 @@ public class UserController {
         return "redirect:/users";
    }
 
-   @DeleteMapping("{id}")
+   @DeleteMapping("/{id}")
     public String deleteUserForm(@PathVariable int id) {
-        userService.removeUser(userService.readUser(id));
+        userService.removeUser(userService.getUser(id));
         return "redirect:/users";
    }
 }

@@ -22,21 +22,21 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User readUser(int id) {
+    public User getUser(int id) {
         return entityManager
                 .createQuery("from User as user where user.id = :id", User.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
     @Override
-    public List<User> readUsers() {
+    public List<User> getUsers() {
         return entityManager.createQuery("from User", User.class)
                 .getResultList();
     }
 
     @Override
     public void removeUser(User user) {
-        entityManager.remove(user);
+        entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user));
     }
 
     @Override
