@@ -16,11 +16,18 @@ import java.util.Properties;
 */
 public class Util {
 
+     private static Util INSTANCE;
+
     private Util() {}
 
-    private static SessionFactory sf;
-    // Singleton initialization of class Util
-    public static SessionFactory getFactory() {
+     public static Util getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Util();
+        }
+        return INSTANCE;
+     }
+    private SessionFactory sf;
+    public SessionFactory getFactory() {
         if (sf == null) {
             Properties prop = new Properties();
             try {

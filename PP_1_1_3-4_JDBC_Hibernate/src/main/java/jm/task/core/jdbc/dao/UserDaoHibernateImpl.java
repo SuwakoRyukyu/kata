@@ -12,7 +12,7 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 
-    private final SessionFactory sf = Util.getFactory();
+   private final SessionFactory sf = Util.getInstance().getFactory();
 
     @Override
     public void createUsersTable() {
