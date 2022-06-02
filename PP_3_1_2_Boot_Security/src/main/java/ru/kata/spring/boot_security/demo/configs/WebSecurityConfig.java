@@ -32,15 +32,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/user").authenticated()
+                .antMatchers("/api/**").access("hasAnyRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .and()
+                .csrf().disable();
     }
 
     public DaoAuthenticationProvider authenticationProvider() {

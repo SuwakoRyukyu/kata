@@ -8,7 +8,7 @@
 <body>
 
 <div th:fragment="users">
-    <table class="table table-striped">
+    <table class="table table-striped" id="usersTable">
         <thead>
         <tr>
             <th>id</th>
@@ -21,19 +21,6 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}">Id</td>
-            <td th:text="${user.username}">Username</td>
-            <td th:text="${user.age}">Age</td>
-            <td th:text="${user.email}">Email</td>
-            <td th:text="${user.roles}">Roles</td>
-            <td>
-               <div th:insert="admin_page/edit :: edit"></div>
-            </td>
-
-            <td>
-                <div th:insert="admin_page/delete :: delete"></div>
-            </td>
         </tbody>
     </table>
 </div>

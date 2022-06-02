@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -64,5 +66,23 @@ public class UserService implements UserDetailsService {
         if (userRepository.findById(id).isPresent()) {
             userRepository.deleteById(id);
         }
+    }
+
+    public User getAuthUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String username;
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        User user = (User) loadUserByUsername(username);
+        if (user != null) {
+            return user;
+        }
+        return new User();
     }
 }

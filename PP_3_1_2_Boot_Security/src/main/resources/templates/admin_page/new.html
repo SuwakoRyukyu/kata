@@ -8,25 +8,31 @@
 <div th:fragment="new">
     <div class="d-flex justify-content-center text-center">
         <div class="col-3">
-            <form th:method="POST" th:action="@{/admin}" th:object="${user}">
+            <form id = "addUserForm" class="text-center fw-bold">
 
-                <label for="username" class="form-label">Name</label>
-                <input type="text" class="form-control" th:field="*{username}" id="username"/>
-                <label for="password" class="form-label">Password</label>
-                <input type="text" class="form-control" th:field="*{password}" id="password"/>
-                <label for="age" class="form-label">Age</label>
-                <input type="text" class="form-control" th:field="*{age}" id="age"/>
-                <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control" th:field="*{email}" id="email"/>
-                <label for="role" class="form-label">Role</label>
-                    <select class="form-select" aria-label="Default-select" th:field="*{roles}" id="role">
-                        <option th:each="role : ${roles}"
-                                th:value="${role.id}"
-                                th:text="${role.role}">
-                        </option>
+                <div class="form-group">
+                    <label for="newUsername">Name</label>
+                    <input type="text" class="form-control" id="newUsername"/>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input type="text" class="form-control" id="newPassword"/>
+                </div>
+                <div class="form-group">
+                    <label for="newAge">Age</label>
+                    <input type="text" class="form-control" id="newAge"/>
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email</label>
+                    <input type="email" class="form-control" id="newEmail"/>
+                </div>
+                <div class="form-group">
+                    <label for="newRoles">Roles</label>
+                    <select multiple class="form-control" size="2" id="newRoles">
                     </select>
+                </div>
                 <br>
-                <input class="btn btn-success" type="submit" value="Add new user">
+                <button type="button" class="btn btn-success" id="addUser">Add new user</button>
             </form>
             </div>
     </div>
