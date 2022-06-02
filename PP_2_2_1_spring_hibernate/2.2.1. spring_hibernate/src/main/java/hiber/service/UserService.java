@@ -7,5 +7,5 @@ import java.util.List;
 public interface UserService {
     void add(User user);
     List<User> listUsers();
-    User getUserByCar(int car_id, int series);
+    User getUserByCar(Long car_id, int series);
 }

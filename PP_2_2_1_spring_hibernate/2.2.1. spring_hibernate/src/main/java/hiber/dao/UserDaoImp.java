@@ -27,7 +27,7 @@ public class UserDaoImp implements UserDao {
    }
 
    @Override
-   public User getUserByCar(int car_id, int series) {
+   public User getUserByCar(Long car_id, int series) {
       return (User) sessionFactory.getCurrentSession().createQuery(
               "from User user " +
                       "where user.car.id = :car_id " +
