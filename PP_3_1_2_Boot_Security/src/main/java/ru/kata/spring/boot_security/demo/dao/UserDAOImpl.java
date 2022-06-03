@@ -2,23 +2,35 @@ package ru.kata.spring.boot_security.demo.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entity.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Component
 public class UserDAOImpl implements UserDAO {
 
+    private final EntityManager entityManager;
+
     @Autowired
-    private EntityManager entityManager;
+    public UserDAOImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
     public User findByUsername(String username) {
-        return entityManager
-                .createQuery("from User as user where user.username = :username", User.class)
-                .setParameter("username", username)
-                .getSingleResult();
+        User user;
+        try {
+            user = entityManager
+                    .createQuery("from User as user where user.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+        return user;
     }
 
     @Override
@@ -36,12 +48,14 @@ public class UserDAOImpl implements UserDAO {
                 .getResultList();
     }
 
+    @Transactional
     @Override
     public void updateUser(User user) {
         entityManager.merge(user);
 
     }
 
+    @Transactional
     @Override
     public void removeUserById(Long id) {
         entityManager
@@ -50,8 +64,13 @@ public class UserDAOImpl implements UserDAO {
                 .executeUpdate();
     }
 
+    @Transactional
     @Override
     public void saveUser(User user) {
-        entityManager.persist(user);
+        if (findByUsername(user.getUsername()) != null) {
+            System.out.println("User is already exist");
+        } else {
+            entityManager.persist(user);
+        }
     }
 }

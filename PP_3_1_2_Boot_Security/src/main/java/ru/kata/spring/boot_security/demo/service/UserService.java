@@ -1,62 +1,22 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.dao.UserDAO;
+import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.entity.User;
 
-import java.util.*;
+import java.util.List;
 
-@Service
-public class UserService implements UserDetailsService {
+@Component
+public interface UserService {
 
-    @Autowired
-    private UserDAO userDAO;
+    List<User> findAll();
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    User findByUsername(String username);
 
-    public List<User> findAll() {
-        return userDAO.findAll();
-    }
-    public User findByUsername(String username) {
-        return userDAO.findByUsername(username);
-    }
+    void saveUser(User user);
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User with this username was not found");
-        }
-        return user;
-    }
+    User findById(Long id);
 
-    public boolean saveUser(User user) {
-        User userToFind = userDAO.findByUsername(user.getUsername());
-        if (userToFind != null) {
-            return false;
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.saveUser(user);
-        return true;
-    }
+    void updateUser(User user);
 
-    public User findById(Long id) {
-        User user = userDAO.findById(id);
-        return Objects.requireNonNullElseGet(user, User::new);
-    }
-
-    public void updateUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.saveUser(user);
-    }
-
-    public void removeUserById(Long id) {
-        userDAO.removeUserById(id);
-    }
+    public void removeUserById(Long id);
 }

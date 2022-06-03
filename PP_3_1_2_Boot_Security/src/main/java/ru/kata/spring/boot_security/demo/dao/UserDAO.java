@@ -10,9 +10,14 @@ import java.util.List;
 public interface UserDAO {
 
     User findByUsername(String username);
+
     User findById(Long id);
+
     List<User> findAll();
+
     void updateUser(User user);
+
     void removeUserById(Long id);
+
     void saveUser(User user);
 }

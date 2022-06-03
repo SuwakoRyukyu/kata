@@ -3,25 +3,32 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    private UserService userService;
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
-    }
-
-    @Autowired
-    public void setRoleService(RoleService roleService) {
         this.roleService = roleService;
     }
 
@@ -45,7 +52,14 @@ public class AdminController {
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") User user) {
+    public String createUser(@ModelAttribute("user") User user, @RequestParam("roles") Set<Role> roles) {
+        Set<Role> rolesTemp = new HashSet<>();
+        roles.forEach(role -> {
+            if (roleService.findByRole(role.getRole()) != null) {
+                rolesTemp.add(roleService.findByRole(role.getRole()));
+            }
+        });
+        user.setRoles(rolesTemp);
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -58,7 +72,7 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}")
-    public String editUser(@ModelAttribute("user") User user, @PathVariable Long id) {
+    public String editUser(@ModelAttribute("user") User user) {
         userService.updateUser(user);
         return "redirect:/admin";
     }
