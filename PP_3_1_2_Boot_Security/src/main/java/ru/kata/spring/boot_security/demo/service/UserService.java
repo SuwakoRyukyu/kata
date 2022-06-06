@@ -1,12 +1,13 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Component;
+import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.entity.User;
 
 import java.util.List;
 
 @Component
-public interface UserService {
+public interface UserService extends UserDAO {
 
     List<User> findAll();
 
@@ -18,5 +19,5 @@ public interface UserService {
 
     void updateUser(User user);
 
-    public void removeUserById(Long id);
+    void removeUserById(Long id);
 }

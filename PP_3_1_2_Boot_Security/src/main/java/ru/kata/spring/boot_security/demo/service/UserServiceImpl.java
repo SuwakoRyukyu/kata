@@ -24,10 +24,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
     public List<User> findAll() {
         return userDAO.findAll();
     }
 
+    @Override
     public User findByUsername(String username) {
         return userDAO.findByUsername(username);
     }
@@ -41,25 +43,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user;
     }
 
+    @Override
+    @Transactional
     public void saveUser(User user) {
-        User userToFind = userDAO.findByUsername(user.getUsername());
-        if (userToFind != null) {
-            System.out.println("User already exists");
-        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDAO.saveUser(user);
     }
 
+    @Override
     public User findById(Long id) {
         User user = userDAO.findById(id);
         return Objects.requireNonNullElseGet(user, User::new);
     }
 
+    @Override
+    @Transactional
     public void updateUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.saveUser(user);
+        userDAO.updateUser(user);
     }
 
+    @Override
+    @Transactional
     public void removeUserById(Long id) {
         userDAO.removeUserById(id);
     }

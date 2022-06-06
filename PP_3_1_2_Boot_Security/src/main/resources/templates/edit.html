@@ -20,7 +20,7 @@
     <label>
         <select th:field="*{roles}">
             <option th:each="role : ${roles}"
-                    th:value="${role.id}"
+                    th:value="${role.role}"
                     th:text="${role.role}">
             </option>
         </select>

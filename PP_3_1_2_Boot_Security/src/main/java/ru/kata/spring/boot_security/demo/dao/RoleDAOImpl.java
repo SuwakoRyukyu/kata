@@ -40,7 +40,6 @@ public class RoleDAOImpl implements RoleDAO {
                 .getResultList();
     }
 
-    @Transactional
     @Override
     public void save(Role role) {
         if (findByRole(role.getRole()) != null) {
