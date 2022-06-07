@@ -3,7 +3,13 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -14,16 +20,12 @@ import java.security.Principal;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private UserService userService;
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
-    }
-
-    @Autowired
-    public void setRoleService(RoleService roleService) {
         this.roleService = roleService;
     }
 
@@ -46,7 +48,7 @@ public class AdminController {
     public String createUserForm(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
         modelMap.addAttribute("roles", roleService.findAll());
-        return "new";
+        return "admin_page/new";
     }
 
     @PostMapping()
@@ -59,7 +61,7 @@ public class AdminController {
     public String editUserForm(ModelMap modelMap, @PathVariable("id") Long id) {
         modelMap.addAttribute("user", userService.findById(id));
         modelMap.addAttribute("roles", roleService.findAll());
-        return "edit";
+        return "admin_page/edit";
     }
 
     @PatchMapping("/{id}")
