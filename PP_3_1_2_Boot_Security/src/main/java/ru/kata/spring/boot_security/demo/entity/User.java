@@ -36,7 +36,6 @@ public class User implements UserDetails {
    private Set<Role> roles;
 
    public User() {
-
    }
 
    @Override
@@ -114,5 +113,10 @@ public class User implements UserDetails {
       return true;
    }
 
-
+   public User(String username, String password, String email, int age) {
+      this.username = username;
+      this.password = password;
+      this.email = email;
+      this.age = age;
+   }
 }

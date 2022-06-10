@@ -1,88 +1,21 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.reposotory.UserRepository;
 
-import java.util.*;
+import java.util.List;
 
-@Service
-public class UserService implements UserDetailsService {
+public interface UserService {
+    List<User> findAll();
 
-    @Autowired
-    private UserRepository userRepository;
+    User findByUsername(String username);
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    boolean saveUser(User user);
 
-    @Autowired
-    private RoleService roleService;
+    User findById(Long id);
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    boolean updateUser(Long id, User user);
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User with this username was not found");
-        }
-        return user;
-    }
+    boolean removeUserById(Long id);
 
-    public boolean saveUser(User user) {
-        User userToFind = userRepository.findByUsername(user.getUsername());
-        if (userToFind != null) {
-            return false;
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return true;
-    }
-
-    public User findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElse(new User());
-    }
-
-    public void updateUser(Long id, User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-    }
-
-    public void removeUserById(Long id) {
-        if (userRepository.findById(id).isPresent()) {
-            userRepository.deleteById(id);
-        }
-    }
-
-    public User getAuthUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        String username;
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-
-        User user = (User) loadUserByUsername(username);
-        if (user != null) {
-            return user;
-        }
-        return new User();
-    }
+    User getAuthUser();
 }
