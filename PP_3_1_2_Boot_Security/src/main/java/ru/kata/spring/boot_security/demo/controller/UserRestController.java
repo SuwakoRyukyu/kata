@@ -11,6 +11,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class UserRestController {
 
     private final UserService userService;
@@ -20,32 +21,32 @@ public class UserRestController {
         this.userService = userService;
     }
 
-    @GetMapping("/api/v1/users")
+    @GetMapping("/users")
     public ResponseEntity<List<User>> userList(Model model) {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/v1/user")
+    @GetMapping("/user")
     public ResponseEntity<User> currentUser() {
         return new ResponseEntity<>(userService.getAuthUser(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/v1/users/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<User> apiFindByID(@PathVariable("id") long id) {
         return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/api/v1/users/update/{id}")
+    @PostMapping("/users/update/{id}")
     public ResponseEntity<Boolean> apiUpdateUser(@PathVariable("id") long id, @RequestBody User user) {
         return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
     }
 
-    @PostMapping("/api/v1/users")
+    @PostMapping("/users")
     public ResponseEntity<Boolean> apiAddNewUser(@RequestBody User user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
-    @PostMapping("/api/v1/users/delete/{id}")
+    @PostMapping("/users/delete/{id}")
     public ResponseEntity<Boolean> apiDeleteUser(@PathVariable("id") long id) {
         return new ResponseEntity<>(userService.removeUserById(id), HttpStatus.OK);
     }
